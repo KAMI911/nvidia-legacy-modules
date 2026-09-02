@@ -15,6 +15,11 @@ debian12:
     pkg_ver: 6.1.106-3
     src: archive
     blocking: true
+  - abi: 6.1.0-25-rt-amd64
+    pkg_ver: 6.1.106-3
+    src: archive
+    blocking: false
+    variant: rt/lowlatency
   i386:
   - abi: 6.1.0-25-686-pae
     pkg_ver: 6.1.106-3
@@ -26,6 +31,11 @@ debian13:
     pkg_ver: 6.12.0-1
     src: archive
     blocking: true
+  - abi: 6.12.0-rt-amd64
+    pkg_ver: '*'
+    src: archive
+    blocking: false
+    variant: rt/lowlatency
   i386:
   - abi: 6.12.0-1-686-pae
     pkg_ver: 6.12.0-1
@@ -51,6 +61,11 @@ ubuntu2204:
     pkg_ver: 6.8.0-45.45~22.04.1
     src: hwe
     blocking: true
+  - abi: 5.15.0-125-lowlatency
+    pkg_ver: '*'
+    src: archive
+    blocking: false
+    variant: rt/lowlatency
 ubuntu2404:
   amd64:
   - abi: 6.8.0-45-generic
@@ -65,6 +80,11 @@ ubuntu2404:
     pkg_ver: '*'
     src: kernel-ppa
     blocking: false
+  - abi: 6.8.0-45-lowlatency
+    pkg_ver: '*'
+    src: archive
+    blocking: false
+    variant: rt/lowlatency
 _mainline_sweep:
   note: non-blocking wide coverage; gen makes per-ABI trees only for real distro ABIs,
     this list drives the DKMS-style compile check in tests/

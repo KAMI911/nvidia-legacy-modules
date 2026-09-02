@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# Reproducible build rules for nvidia-legacy-580xx (580.95.05), flavour: modules
+# Reproducible build rules for nvidia-legacy-580xx (580.178.04), flavour: modules
 # Rendered by nvidia-legacy-common/scripts/render-debian.py — do not edit here.
 
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
@@ -7,7 +7,7 @@ export DEB_CFLAGS_MAINT_APPEND  = -Wall
 export SOURCE_DATE_EPOCH ?= $(shell dpkg-parsechangelog -STimestamp)
 
 SERIES      := 580xx
-VERSION     := 580.95.05
+VERSION     := 580.178.04
 FLAVOUR     := modules
 DKMS_NAME   := nvidia-legacy-$(SERIES)
 DKMS_SRC    := debian/nvidia-legacy-$(SERIES)-kernel-dkms/usr/src/$(DKMS_NAME)-$(VERSION)
@@ -28,7 +28,7 @@ override_dh_auto_build:
 override_dh_auto_install:
 	set -e; \
 	install -d debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH); \
-	debian/helpers/install-userspace.sh "$(PAYLOAD)" debian/tmp "$(DEB_HOST_MULTIARCH)" 580.95.05
+	debian/helpers/install-userspace.sh "$(PAYLOAD)" debian/tmp "$(DEB_HOST_MULTIARCH)" 580.178.04
 	# --- prebuilt module: compiled by dh_dkms against the build chroot kernel
 	debian/helpers/build-prebuilt-module.sh "$(PAYLOAD)" "$(DKMS_NAME)" "$(VERSION)"
 
