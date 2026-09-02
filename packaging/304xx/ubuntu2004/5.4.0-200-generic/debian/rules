@@ -10,7 +10,7 @@ SERIES      := 304xx
 VERSION     := 304.137
 FLAVOUR     := modules
 DKMS_NAME   := nvidia-legacy-$(SERIES)
-DKMS_SRC    := debian/tmp/usr/src/$(DKMS_NAME)-$(VERSION)
+DKMS_SRC    := debian/nvidia-legacy-$(SERIES)-kernel-dkms/usr/src/$(DKMS_NAME)-$(VERSION)
 # payload/ is the extracted .run, delivered via the .orig tarball(s)
 PAYLOAD     := $(CURDIR)
 PAYLOAD32   := $(CURDIR)/i386-payload
@@ -24,6 +24,9 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	# userspace is prebuilt; only nvidia-settings CLI helpers (if any) are compiled
 	:
+
+override_dh_missing:
+	dh_missing --fail-missing
 
 override_dh_auto_install:
 	set -e; \
@@ -41,9 +44,24 @@ execute_after_dh_fixperms:
 override_dh_strip:
 	dh_strip --no-automatic-dbgsym
 
+override_dh_dwz:
+	# NVIDIA blobs carry no .debug_info — nothing for dwz to do
+
+override_dh_makeshlibs:
+	# these are private driver libs, not a public shared-lib package — no shlibs
+	dh_makeshlibs -Xlibnvidia -Xlibcuda -Xlibnvcuvid -XlibGLX_nvidia \
+	  -XlibEGL_nvidia -XlibGLESv -Xlibvdpau_nvidia -Xlibglx
+
 override_dh_shlibdeps:
-	dh_shlibdeps -l/usr/lib/$(DEB_HOST_MULTIARCH)/nvidia/legacy-$(SERIES) \
-	  -- --ignore-missing-info
+	# let dpkg-shlibdeps resolve the inter-NVIDIA SONAMEs (libnvidia-*, libcuda,
+	# libnvcuvid, libGLX_nvidia ...) against our own just-staged packages
+	dh_shlibdeps \
+	  $(foreach p,$(shell dh_listpackages),-l$(CURDIR)/debian/$(p)/usr/lib/$(DEB_HOST_MULTIARCH)) \
+	  -Xnvidia_drv.so -Xlibglxserver_nvidia \
+	  -Xlibnvidia-egl-wayland -Xlibnvidia-egl-gbm -Xlibnvidia-vulkan-producer \
+	  -Xlibnvidia-pkcs11 -Xlibnvidia-ngx -Xlibnvidia-vksc \
+	  -- --ignore-missing-info \
+	     --warnings=0
 
 override_dh_gencontrol:
 	dh_gencontrol -- -Vnvidia:Version=$(VERSION)
