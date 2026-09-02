@@ -1,0 +1,37 @@
+# Every kernel ABI we ship a prebuilt module for, per target.
+# gen-kernel-packages.py reads this; kernel-refresh.yml keeps it current from:
+#   archive     — the target distro's own apt archive (blocking)
+#   hwe         — linux-*-hwe rolling ABI in the target archive (blocking)
+#   backports   — <suite>-backports (Debian, non-blocking)
+#   kernel-ppa  — ppa:canonical-kernel-team/ppa (Ubuntu, non-blocking)
+#   mainline    — kernel.ubuntu.com/mainline .deb (non-blocking)
+#
+# New ABIs are added blocking:false; promoted after one green build.
+
+debian11:
+  amd64: [{abi: "5.10.0-33-amd64", pkg_ver: "5.10.226-1", src: archive, blocking: true}]
+  i386:  [{abi: "5.10.0-33-686-pae", pkg_ver: "5.10.226-1", src: archive, blocking: true}]
+
+debian12:
+  amd64: [{abi: "6.1.0-25-amd64", pkg_ver: "6.1.106-3", src: archive, blocking: true}]
+  i386:  [{abi: "6.1.0-25-686-pae", pkg_ver: "6.1.106-3", src: archive, blocking: true}]
+
+debian13:
+  amd64: [{abi: "6.12.0-1-amd64", pkg_ver: "6.12.0-1", src: archive, blocking: true}]
+  i386:  [{abi: "6.12.0-1-686-pae", pkg_ver: "6.12.0-1", src: archive, blocking: true}]
+
+ubuntu2004:
+  amd64:
+    - {abi: "5.4.0-200-generic",  pkg_ver: "5.4.0-200.220",   src: archive, blocking: true}
+    - {abi: "5.15.0-125-generic", pkg_ver: "5.15.0-125.135~20.04.1", src: hwe, blocking: true}
+
+ubuntu2204:
+  amd64:
+    - {abi: "5.15.0-125-generic", pkg_ver: "5.15.0-125.135", src: archive, blocking: true}
+    - {abi: "6.8.0-45-generic",   pkg_ver: "6.8.0-45.45~22.04.1", src: hwe, blocking: true}
+
+ubuntu2404:
+  amd64:
+    - {abi: "6.8.0-45-generic",   pkg_ver: "6.8.0-45.45",  src: archive, blocking: true}
+    - {abi: "6.11.0-9-generic",   pkg_ver: "6.11.0-9.9",   src: hwe, blocking: true}
+    - {abi: "6.14.0-1-generic",   pkg_ver: "*",            src: kernel-ppa, blocking: false}

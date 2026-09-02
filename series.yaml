@@ -1,0 +1,33 @@
+# Prebuilt-module build set. Same shape as the dkms repo's series.yaml.
+# The actual per-ABI expansion comes from tools/kernels.yaml.
+flavour: modules
+
+build:
+  "470xx":
+    targets: [debian11, debian12, debian13, ubuntu2004, ubuntu2204, ubuntu2404]
+    archs: { debian: [amd64], ubuntu: [amd64] }
+    blocking: true
+  "390xx":
+    targets: [debian11, debian12, debian13, ubuntu2004, ubuntu2204, ubuntu2404]
+    archs: { debian: [amd64, i386], ubuntu: [amd64] }
+    blocking: true
+  "340xx":
+    targets: [debian11, debian12, debian13, ubuntu2004, ubuntu2204, ubuntu2404]
+    archs: { debian: [amd64, i386], ubuntu: [amd64] }
+    blocking: true
+  "304xx":
+    targets: [debian11, debian12, ubuntu2004, ubuntu2204]
+    archs: { debian: [amd64, i386], ubuntu: [amd64] }
+    blocking: false
+  "173xx":
+    targets: [debian11]
+    archs: { debian: [amd64, i386], ubuntu: [] }
+    blocking: false
+  "96xx":
+    targets: [debian11]
+    archs: { debian: [amd64, i386], ubuntu: [] }
+    blocking: false
+  "71xx":
+    targets: [debian11]
+    archs: { debian: [amd64, i386], ubuntu: [] }
+    blocking: false
