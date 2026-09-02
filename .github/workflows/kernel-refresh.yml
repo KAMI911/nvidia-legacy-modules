@@ -1,7 +1,7 @@
 name: kernel-refresh
 
 # Weekly: discover new kernels (distro archives, Ubuntu HWE, kernel-team PPA,
-# kernel.org mainline) and append pinned entries to tests/module-build/kernels.yaml.
+# kernel.org mainline) and append pinned entries to tests/dkms-matrix/kernels.yaml.
 # Opens a PR; CI then proves the DKMS source still builds against them.
 on:
   schedule:
