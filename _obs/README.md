@@ -42,7 +42,7 @@ single deterministic source:
 ## Bootstrap
 
 ```sh
-export OBS_PROJECT=home:$(osc whois | cut -d'"' -f2):nvidia-legacy:modules   # or set by hand
+export OBS_PROJECT=home:$(osc whois | cut -d: -f1):nvidia-legacy:modules   # or set by hand
 osc meta prj      "$OBS_PROJECT" -F <(_obs/render.sh prj)
 osc meta prjconf  "$OBS_PROJECT" -F _obs/prjconf
 ```
