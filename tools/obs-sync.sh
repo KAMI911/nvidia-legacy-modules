@@ -40,8 +40,15 @@ for tree in "$ROOT"/packaging/"$series"/*/*/; do
   [ -n "$pkg" ] || { echo "no Source: in $tree"; exit 1; }
   echo ":: $pkg  ($target -> $repo)"
 
+  # dpkg-source needs a full source tree: extract the shared .orig, drop this
+  # ABI's debian/ on top, build from there. The .orig must carry the per-ABI
+  # source name.
   cp -f "$orig" "$BUILDDIR/${pkg}_${uv}.orig.tar.xz"
-  ( cd "$BUILDDIR" && dpkg-source --no-check -b "$tree" >/dev/null )
+  work="$BUILDDIR/${pkg}-${uv}"
+  rm -rf "$work"; mkdir -p "$work"
+  tar -C "$work" --strip-components=1 -xf "$orig"
+  cp -a "$tree/debian" "$work/"
+  ( cd "$BUILDDIR" && dpkg-source --no-check -b "$(basename "$work")" >/dev/null )
   dsc="$(ls "$BUILDDIR/${pkg}_${uv}"*.dsc | head -1)"
 
   # ensure the OBS package exists, build only in $repo, publish off
