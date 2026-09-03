@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: obs            # requires manual approval + holds OSC_* secrets
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { submodules: true }
       - uses: actions/download-artifact@v4
         with: { path: ../build, merge-multiple: true }
