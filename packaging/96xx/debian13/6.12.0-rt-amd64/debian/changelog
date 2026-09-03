@@ -2,7 +2,7 @@ nvidia-legacy-96xx-kernel-6.12.0-rt-amd64 (96.43.23-0nvl1~trixie1) trixie; urgen
 
   * Reproducible build of NVIDIA 96.43.23 (96xx legacy series)
     for debian13 (trixie).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 5838ae1.
+  * Rendered by render-debian.py from nvidia-legacy-common @ fffe02a.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 14:21:11 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 14:39:48 +0000
 
