@@ -21,8 +21,8 @@ debian12:
 
 debian13:
   amd64:
-  - { abi: 6.12.107+deb13-amd64,     pkg_ver: '*', src: archive, blocking: true }
-  - { abi: 6.12.107+deb13-rt-amd64,  pkg_ver: '*', src: archive, blocking: false, variant: rt }
+  - { abi: 6.12.94+deb13-amd64,     pkg_ver: '*', src: archive, blocking: true }
+  - { abi: 6.12.94+deb13-rt-amd64,  pkg_ver: '*', src: archive, blocking: false, variant: rt }
 
 ubuntu2004:
   amd64:
