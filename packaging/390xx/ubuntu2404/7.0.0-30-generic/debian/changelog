@@ -1,0 +1,8 @@
+nvidia-legacy-390xx-kernel-7.0.0-30-generic (390.157-0nvl1~noble1) noble; urgency=medium
+
+  * Reproducible build of NVIDIA 390.157 (390xx legacy series)
+    for ubuntu2404 (noble).
+  * Rendered by render-debian.py from nvidia-legacy-common @ 14192af.
+
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 14:57:32 +0000
+

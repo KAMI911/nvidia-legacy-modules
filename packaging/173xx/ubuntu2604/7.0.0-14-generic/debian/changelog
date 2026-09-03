@@ -1,0 +1,8 @@
+nvidia-legacy-173xx-kernel-7.0.0-14-generic (173.14.39-0nvl1~resolute1) resolute; urgency=medium
+
+  * Reproducible build of NVIDIA 173.14.39 (173xx legacy series)
+    for ubuntu2604 (resolute).
+  * Rendered by render-debian.py from nvidia-legacy-common @ 14192af.
+
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 14:57:32 +0000
+

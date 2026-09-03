@@ -1,8 +1,0 @@
-nvidia-legacy-340xx-kernel-6.12.0-rt-amd64 (340.108-0nvl1~trixie1) trixie; urgency=medium
-
-  * Reproducible build of NVIDIA 340.108 (340xx legacy series)
-    for debian13 (trixie).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 14192af.
-
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 14:57:32 +0000
-
