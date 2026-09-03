@@ -4,8 +4,8 @@ Priority: optional
 Maintainer: nvidia-legacy CI <ci@nvidia-legacy.invalid>
 Build-Depends:
  linux-headers-5.4.0-200-generic (= 5.4.0-200.220),
- debhelper-compat (= 13),
- dh-dkms,
+ debhelper-compat (= 12),
+ dh-dkms | dkms (>= 2.8),
  dpkg-dev (>= 1.20.0),
  binutils,
  linux-headers-generic | linux-headers-amd64 | linux-headers-686-pae,
