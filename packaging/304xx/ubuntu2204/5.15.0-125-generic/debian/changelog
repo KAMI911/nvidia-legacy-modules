@@ -2,7 +2,7 @@ nvidia-legacy-304xx-kernel-5.15.0-125-generic (304.137-0nvl1~jammy1) jammy; urge
 
   * Reproducible build of NVIDIA 304.137 (304xx legacy series)
     for ubuntu2204 (jammy).
-  * Rendered by render-debian.py from nvidia-legacy-common @ fffe02a.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 14192af.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 14:39:48 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 14:57:32 +0000
 
