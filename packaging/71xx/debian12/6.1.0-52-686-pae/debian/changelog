@@ -2,7 +2,7 @@ nvidia-legacy-71xx-kernel-6.1.0-52-686-pae (71.86.15-0nvl1~bookworm1) bookworm; 
 
   * Reproducible build of NVIDIA 71.86.15 (71xx legacy series)
     for debian12 (bookworm).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 4a2866f.
+  * Rendered by render-debian.py from nvidia-legacy-common @ b238ea3.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 17:09:09 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 17:19:30 +0000
 

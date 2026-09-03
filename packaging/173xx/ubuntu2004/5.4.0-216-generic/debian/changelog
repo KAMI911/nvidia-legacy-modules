@@ -2,7 +2,7 @@ nvidia-legacy-173xx-kernel-5.4.0-216-generic (173.14.39-0nvl1~focal1) focal; urg
 
   * Reproducible build of NVIDIA 173.14.39 (173xx legacy series)
     for ubuntu2004 (focal).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 4a2866f.
+  * Rendered by render-debian.py from nvidia-legacy-common @ b238ea3.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 17:09:09 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 17:19:30 +0000
 
