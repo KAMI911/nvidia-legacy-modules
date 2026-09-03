@@ -30,7 +30,7 @@ Vcs-Git: https://github.com/kami911/nvidia-legacy-modules.git
 Vcs-Browser: https://github.com/kami911/nvidia-legacy-modules
 
 Package: nvidia-legacy-173xx-driver
-Architecture: amd64 i386
+Architecture: amd64
 Depends:
  ${misc:Depends},
  nvidia-legacy-173xx-driver-libs (= ${binary:Version}),
@@ -57,7 +57,7 @@ Description: NVIDIA legacy 173.14.39 driver metapackage (GeForce FX 5xxx series 
  (19). IgnoreABI is enabled automatically.
 
 Package: nvidia-legacy-173xx-driver-bin
-Architecture: amd64 i386
+Architecture: amd64
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: NVIDIA legacy 173.14.39 driver — utilities
  nvidia-smi, nvidia-settings, nvidia-xconfig, nvidia-debugdump,
@@ -82,7 +82,7 @@ Description: NVIDIA legacy 173.14.39 driver — runtime libraries
  :i386 variant alongside for 32-bit applications.
 
 Package: nvidia-legacy-173xx-kernel-support
-Architecture: amd64 i386
+Architecture: all
 Depends: ${misc:Depends}
 Description: NVIDIA legacy 173.14.39 driver — kernel/X integration glue
  Ships the nouveau blacklist, the modprobe alias, the initramfs hook, the udev

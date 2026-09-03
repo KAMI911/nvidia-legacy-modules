@@ -30,7 +30,7 @@ Vcs-Git: https://github.com/kami911/nvidia-legacy-modules.git
 Vcs-Browser: https://github.com/kami911/nvidia-legacy-modules
 
 Package: nvidia-legacy-390xx-driver
-Architecture: amd64 i386
+Architecture: amd64
 Depends:
  ${misc:Depends},
  nvidia-legacy-390xx-driver-libs (= ${binary:Version}),
@@ -49,14 +49,14 @@ Description: NVIDIA legacy 390.157 driver metapackage (Fermi, Kepler (GeForce 40
  UPSTREAM STATUS: Upstream EOL 2022-12. Community-patched for newer kernels/Xorg.
 
 Package: nvidia-legacy-390xx-driver-bin
-Architecture: amd64 i386
+Architecture: amd64
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: NVIDIA legacy 390.157 driver — utilities
  nvidia-smi, nvidia-settings, nvidia-xconfig, nvidia-debugdump,
  nvidia-persistenced and the GTK backends for the 390.157 driver.
 
 Package: xserver-xorg-video-nvidia-legacy-390xx
-Architecture: amd64 i386
+Architecture: amd64
 Depends:
  ${misc:Depends}, ${shlibs:Depends},
  nvidia-legacy-390xx-driver-libs (= ${binary:Version}),
@@ -71,7 +71,9 @@ Package: nvidia-legacy-390xx-driver-libs
 Architecture: amd64 i386
 Multi-Arch: same
 Section: non-free/libs
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends:
+ ${misc:Depends}, ${shlibs:Depends},
+ libgl1, libglx0, libegl1,
 Provides:
  nvidia-legacy-390xx-driver-libs-nonglvnd,
  libgl1-nvidia-glx,
@@ -85,7 +87,7 @@ Description: NVIDIA legacy 390.157 driver — runtime libraries
  :i386 variant alongside for 32-bit applications.
 
 Package: nvidia-legacy-390xx-kernel-support
-Architecture: amd64 i386
+Architecture: all
 Depends: ${misc:Depends}
 Description: NVIDIA legacy 390.157 driver — kernel/X integration glue
  Ships the nouveau blacklist, the modprobe alias, the initramfs hook, the udev

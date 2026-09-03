@@ -83,7 +83,7 @@ Description: NVIDIA legacy 304.137 driver — runtime libraries
  :i386 variant alongside for 32-bit applications.
 
 Package: nvidia-legacy-304xx-kernel-support
-Architecture: amd64
+Architecture: all
 Depends: ${misc:Depends}
 Description: NVIDIA legacy 304.137 driver — kernel/X integration glue
  Ships the nouveau blacklist, the modprobe alias, the initramfs hook, the udev
