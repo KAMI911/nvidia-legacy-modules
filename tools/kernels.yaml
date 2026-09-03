@@ -27,7 +27,7 @@ debian13:
 ubuntu2004:
   amd64:
   - { abi: 5.4.0-216-generic,      pkg_ver: '*', src: archive, blocking: false }
-  - { abi: 5.15.0-190-generic,     pkg_ver: '*', src: hwe,     blocking: false }
+  - { abi: 5.15.0-139-generic,     pkg_ver: '*', src: hwe,     blocking: false }
 
 ubuntu2204:
   amd64:
@@ -37,11 +37,11 @@ ubuntu2204:
 ubuntu2404:
   amd64:
   - { abi: 6.8.0-139-generic,      pkg_ver: '*', src: archive, blocking: true }
-  - { abi: 7.0.0-30-generic,       pkg_ver: '*', src: hwe,     blocking: true }
+  - { abi: 7.0.0-31-generic,       pkg_ver: '*', src: hwe,     blocking: true }
 
 ubuntu2604:
   amd64:
-  - { abi: 7.0.0-14-generic,       pkg_ver: '*', src: archive, blocking: true }
+  - { abi: 7.0.0-30-generic,       pkg_ver: '*', src: archive, blocking: true }
 
 _mainline_sweep:
   note: non-blocking wide coverage for the DKMS-style compile check in tests/;
