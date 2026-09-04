@@ -31,15 +31,26 @@ mkdir -p "$BUILDDIR"
 "$COMMON/scripts/verify-run.sh" "$series"
 "$COMMON/scripts/assemble-source.sh" "$series" "$BUILDDIR"
 
-tree="$ROOT/packaging/$series/$target"
+# Render into a scratch dir, *not* packaging/$series/$target: that path is
+# where gen-kernel-packages.py commits per-ABI trees (packaging/$series/$target/<abi>/),
+# and dpkg-source would see those sibling directories as unexpected upstream
+# changes and abort.
+tree="$BUILDDIR/dkms-src/$series-$target"
+mkdir -p "$tree"
 python3 "$COMMON/scripts/render-debian.py" --series "$series" --target "$target" --flavour dkms --out "$tree"
 ( cd "$BUILDDIR" && dpkg-source --no-check -b "$tree" )
 dsc="$(ls -t "$BUILDDIR"/nvidia-legacy-"$series"_*.dsc | head -1)"
 
+first=1
 for arch in "${arches[@]}"; do
   echo "==== sbuild $series/$cn/$arch ===="
+  # build Architecture:all binaries (e.g. the -kernel-dkms package) once, on
+  # the first arch only, or every subsequent --no-arch-all build would skip
+  # them and no arch:all .deb would ever be produced.
+  archall_flag="--no-arch-all"; [ "$first" = 1 ] && archall_flag="--arch-all"
+  first=0
   SOURCE_DATE_EPOCH="$(dpkg-parsechangelog -l"$tree/debian/changelog" -STimestamp)" \
-  sbuild --dist="$cn" --arch="$arch" --no-arch-all \
+  sbuild --dist="$cn" --arch="$arch" "$archall_flag" \
     ${arch:+--extra-repository="deb [trusted=yes] file://$BUILDDIR ./"} \
     --build-dir="$BUILDDIR" --stats-dir="$BUILDDIR/stats" \
     --dpkg-source-opts="--no-check" \

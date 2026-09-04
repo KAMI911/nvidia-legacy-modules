@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 BUILDDIR="${BUILDDIR:-$ROOT/../build}"
 series="${1:?}"; target="${2:?}"
-tree="$ROOT/packaging/$series/$target"
+tree="$BUILDDIR/dkms-src/$series-$target"
 [ -d "$tree/debian" ] || { echo "render first"; exit 1; }
 
 command -v reprotest >/dev/null || { echo "reprotest not installed"; exit 1; }
