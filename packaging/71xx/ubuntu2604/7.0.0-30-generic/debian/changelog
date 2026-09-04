@@ -2,7 +2,7 @@ nvidia-legacy-71xx-kernel-7.0.0-30-generic (71.86.15-0nvl1~resolute1) resolute; 
 
   * Reproducible build of NVIDIA 71.86.15 (71xx legacy series)
     for ubuntu2604 (resolute).
-  * Rendered by render-debian.py from nvidia-legacy-common @ b238ea3.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 4e3323e.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 17:19:30 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Fri, 04 Sep 2026 05:05:13 +0000
 
