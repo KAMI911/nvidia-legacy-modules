@@ -52,8 +52,11 @@ for arch in "${arches[@]}"; do
   # no --extra-repository: nothing here depends on another locally-built
   # .deb, and pointing apt at $BUILDDIR without a Packages index there just
   # makes `apt-get update` fail inside the chroot.
+  # -v: without it sbuild writes the real build transcript only to its own
+  # per-package .build file, not to stdout — a failure here would otherwise
+  # show nothing but the exit code.
   SOURCE_DATE_EPOCH="$(dpkg-parsechangelog -l"$tree/debian/changelog" -STimestamp)" \
-  sbuild --dist="$cn" --arch="$arch" "$archall_flag" \
+  sbuild -v --dist="$cn" --arch="$arch" "$archall_flag" \
     --build-dir="$BUILDDIR" --stats-dir="$BUILDDIR/stats" \
     --dpkg-source-opts="--no-check" \
     "$dsc" 2>&1 | tee "$BUILDDIR/build-$series-$cn-$arch.log"

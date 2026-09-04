@@ -69,6 +69,15 @@ jobs:
       - name: reprotest (bit-identical rebuild)
         run: .github/scripts/reprotest-wrap.sh ${{ matrix.series }} ${{ matrix.target }}
         continue-on-error: ${{ !matrix.blocking }}
+      - name: upload sbuild logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbuild-logs-${{ matrix.series }}-${{ matrix.target }}
+          path: |
+            ../build/*.build
+            ../build/build-*.log
+          if-no-files-found: ignore
       - uses: actions/upload-artifact@v4
         with:
           name: debs-${{ matrix.series }}-${{ matrix.target }}
