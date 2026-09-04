@@ -2,7 +2,7 @@ nvidia-legacy-71xx-kernel-6.12.94+deb13-rt-amd64 (71.86.15-0nvl1~trixie1) trixie
 
   * Reproducible build of NVIDIA 71.86.15 (71xx legacy series)
     for debian13 (trixie).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 4e3323e.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 22e8d47.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Fri, 04 Sep 2026 05:05:13 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Fri, 04 Sep 2026 06:43:43 +0000
 

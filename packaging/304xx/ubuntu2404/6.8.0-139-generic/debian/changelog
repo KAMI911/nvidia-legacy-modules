@@ -2,7 +2,7 @@ nvidia-legacy-304xx-kernel-6.8.0-139-generic (304.137-0nvl1~noble1) noble; urgen
 
   * Reproducible build of NVIDIA 304.137 (304xx legacy series)
     for ubuntu2404 (noble).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 4e3323e.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 22e8d47.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Fri, 04 Sep 2026 05:05:13 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Fri, 04 Sep 2026 06:43:43 +0000
 
