@@ -62,7 +62,10 @@ jobs:
           sudo sbuild-createchroot --make-sbuild-tarball=/srv/chroot/${CN}.tar.gz \
             "$CN" "$(mktemp -d)" "$MIR"
       - name: build (clean chroot, all arches)
-        run: .github/scripts/sbuild-wrap.sh ${{ matrix.series }} ${{ matrix.target }}
+        # sbuild-adduser (host deps step) only takes effect on a fresh login;
+        # this shell never re-logged in, so the runner user's sbuild group
+        # membership needs `sg` to become active for this step.
+        run: sg sbuild -c ".github/scripts/sbuild-wrap.sh ${{ matrix.series }} ${{ matrix.target }}"
       - name: reprotest (bit-identical rebuild)
         run: .github/scripts/reprotest-wrap.sh ${{ matrix.series }} ${{ matrix.target }}
         continue-on-error: ${{ !matrix.blocking }}
