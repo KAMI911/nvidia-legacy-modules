@@ -55,8 +55,17 @@ for arch in "${arches[@]}"; do
   # -v: without it sbuild writes the real build transcript only to its own
   # per-package .build file, not to stdout — a failure here would otherwise
   # show nothing but the exit code.
+  # --no-run-lintian: this step verifies the dkms flavour still compiles and
+  # packages, not full Debian policy compliance — that's static.yml's job
+  # against the real product (the modules flavour). sbuild's own lintian pass
+  # here fails the whole build on things that are either inherent to shipping
+  # prebuilt proprietary NVIDIA binaries (embedded zlib, no PIE/RELRO,
+  # sonames that don't match the upstream .so names) or false positives
+  # (e.g. "missing-build-dependency-for-dh_-command dh_dkms" even though the
+  # build just used it successfully) — none of which sbuild's blanket
+  # error-on-any-lintian-E policy can distinguish from a real regression.
   SOURCE_DATE_EPOCH="$(dpkg-parsechangelog -l"$tree/debian/changelog" -STimestamp)" \
-  sbuild -v --dist="$cn" --arch="$arch" "$archall_flag" \
+  sbuild -v --no-run-lintian --dist="$cn" --arch="$arch" "$archall_flag" \
     --build-dir="$BUILDDIR" --stats-dir="$BUILDDIR/stats" \
     --dpkg-source-opts="--no-check" \
     "$dsc" 2>&1 | tee "$BUILDDIR/build-$series-$cn-$arch.log"
