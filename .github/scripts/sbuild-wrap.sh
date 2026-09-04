@@ -49,9 +49,11 @@ for arch in "${arches[@]}"; do
   # them and no arch:all .deb would ever be produced.
   archall_flag="--no-arch-all"; [ "$first" = 1 ] && archall_flag="--arch-all"
   first=0
+  # no --extra-repository: nothing here depends on another locally-built
+  # .deb, and pointing apt at $BUILDDIR without a Packages index there just
+  # makes `apt-get update` fail inside the chroot.
   SOURCE_DATE_EPOCH="$(dpkg-parsechangelog -l"$tree/debian/changelog" -STimestamp)" \
   sbuild --dist="$cn" --arch="$arch" "$archall_flag" \
-    ${arch:+--extra-repository="deb [trusted=yes] file://$BUILDDIR ./"} \
     --build-dir="$BUILDDIR" --stats-dir="$BUILDDIR/stats" \
     --dpkg-source-opts="--no-check" \
     "$dsc" 2>&1 | tee "$BUILDDIR/build-$series-$cn-$arch.log"
