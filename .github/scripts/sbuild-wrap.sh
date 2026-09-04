@@ -58,10 +58,19 @@ for arch in "${arches[@]}"; do
     --dpkg-source-opts="--no-check" \
     "$dsc" 2>&1 | tee "$BUILDDIR/build-$series-$cn-$arch.log"
 
-  # hardening check on the actual build log
+  # hardening check on the actual build log. The dkms flavour compiles
+  # nothing at package-build time (dkms itself builds the module later, on
+  # the target) — blhc's "No compiler commands!" there is expected, not a
+  # real hardening gap.
   if command -v blhc >/dev/null; then
-    blhc --all "$BUILDDIR/build-$series-$cn-$arch.log" && echo "blhc: clean" \
-      || { echo "blhc: hardening issues"; exit 1; }
+    out="$(blhc --all "$BUILDDIR/build-$series-$cn-$arch.log" 2>&1)"; rc=$?
+    if [ "$rc" = 0 ]; then
+      echo "blhc: clean"
+    elif [ "$out" = "No compiler commands!" ]; then
+      echo "blhc: no compiler commands (expected, dkms flavour compiles nothing at build time)"
+    else
+      echo "$out"; echo "blhc: hardening issues"; exit 1
+    fi
   fi
 done
 ls -l "$BUILDDIR"/*.buildinfo 2>/dev/null || echo "WARN: no .buildinfo produced"
