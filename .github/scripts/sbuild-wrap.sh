@@ -64,11 +64,25 @@ for arch in "${arches[@]}"; do
   # (e.g. "missing-build-dependency-for-dh_-command dh_dkms" even though the
   # build just used it successfully) — none of which sbuild's blanket
   # error-on-any-lintian-E policy can distinguish from a real regression.
+  # sbuild's own exit code has proven unreliable here (e.g. a "Not cleaning
+  # session: cloned chroot in use" cleanup warning can flip it non-zero on an
+  # otherwise "Status: successful" build) — verify real success by checking
+  # for the .changes it should have produced, instead of trusting the code.
+  set +e
   SOURCE_DATE_EPOCH="$(dpkg-parsechangelog -l"$tree/debian/changelog" -STimestamp)" \
   sbuild -v --no-run-lintian --dist="$cn" --arch="$arch" "$archall_flag" \
     --build-dir="$BUILDDIR" --stats-dir="$BUILDDIR/stats" \
     --dpkg-source-opts="--no-check" \
     "$dsc" 2>&1 | tee "$BUILDDIR/build-$series-$cn-$arch.log"
+  sb_rc="${PIPESTATUS[0]}"
+  set -e
+  changes="$(ls -t "$BUILDDIR"/nvidia-legacy-"$series"_*_"$arch".changes 2>/dev/null | head -1)"
+  if [ -z "$changes" ]; then
+    echo "sbuild: no .changes for $arch (exit $sb_rc) — real failure"
+    exit 1
+  elif [ "$sb_rc" != 0 ]; then
+    echo "sbuild: exited $sb_rc but $(basename "$changes") was produced — treating as success"
+  fi
 
   # hardening check on the actual build log. The dkms flavour compiles
   # nothing at package-build time (dkms itself builds the module later, on

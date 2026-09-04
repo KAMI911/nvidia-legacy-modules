@@ -38,6 +38,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with: { submodules: true }
+      - name: BUILDDIR
+        # actions/upload-artifact@v4 rejects any ".." in its path patterns,
+        # so scripts' own default ($ROOT/../build) can't be used there —
+        # export the canonical absolute path once for every step to share.
+        run: echo "BUILDDIR=$(realpath -m "$GITHUB_WORKSPACE/../build")" >> "$GITHUB_ENV"
       - name: host deps
         run: |
           sudo apt-get update -qq
@@ -75,15 +80,15 @@ jobs:
         with:
           name: sbuild-logs-${{ matrix.series }}-${{ matrix.target }}
           path: |
-            ../build/*.build
-            ../build/build-*.log
+            ${{ env.BUILDDIR }}/*.build
+            ${{ env.BUILDDIR }}/build-*.log
           if-no-files-found: ignore
       - uses: actions/upload-artifact@v4
         with:
           name: debs-${{ matrix.series }}-${{ matrix.target }}
           path: |
-            ../build/*.deb
-            ../build/*.dsc
-            ../build/*.tar.*
-            ../build/*.buildinfo
-            ../build/*.changes
+            ${{ env.BUILDDIR }}/*.deb
+            ${{ env.BUILDDIR }}/*.dsc
+            ${{ env.BUILDDIR }}/*.tar.*
+            ${{ env.BUILDDIR }}/*.buildinfo
+            ${{ env.BUILDDIR }}/*.changes
