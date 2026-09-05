@@ -64,33 +64,29 @@ for arch in "${arches[@]}"; do
   # (e.g. "missing-build-dependency-for-dh_-command dh_dkms" even though the
   # build just used it successfully) — none of which sbuild's blanket
   # error-on-any-lintian-E policy can distinguish from a real regression.
-  # sbuild's own exit code has proven unreliable here (e.g. a "Not cleaning
-  # session: cloned chroot in use" cleanup warning can flip it non-zero on an
-  # otherwise "Status: successful" build) — verify real success by checking
-  # for the .changes it should have produced, instead of trusting the code.
-  set +e
+  # NB: a previous version of this script tried to second-guess sbuild's exit
+  # code by checking for a produced .changes file — but that check's own
+  # `ls ... | head -1` died silently under `set -e -o pipefail` whenever the
+  # glob didn't match (ls's own non-zero exit propagates through the pipe),
+  # aborting the script with zero diagnostic output. That bug, not sbuild
+  # itself, was the real cause of several mysterious no-output CI failures.
+  # Trust sbuild's own exit code directly.
   SOURCE_DATE_EPOCH="$(dpkg-parsechangelog -l"$tree/debian/changelog" -STimestamp)" \
   sbuild -v --no-run-lintian --dist="$cn" --arch="$arch" "$archall_flag" \
     --build-dir="$BUILDDIR" --stats-dir="$BUILDDIR/stats" \
     --dpkg-source-opts="--no-check" \
     "$dsc" 2>&1 | tee "$BUILDDIR/build-$series-$cn-$arch.log"
-  sb_rc="${PIPESTATUS[0]}"
-  set -e
-  changes="$(ls -t "$BUILDDIR"/nvidia-legacy-"$series"_*_"$arch".changes 2>/dev/null | head -1)"
-  if [ -z "$changes" ]; then
-    echo "sbuild: no .changes for $arch (exit $sb_rc) — real failure"
-    exit 1
-  elif [ "$sb_rc" != 0 ]; then
-    echo "sbuild: exited $sb_rc but $(basename "$changes") was produced — treating as success"
-  fi
 
   # hardening check on the actual build log. The dkms flavour compiles
   # nothing at package-build time (dkms itself builds the module later, on
   # the target) — blhc's "No compiler commands!" there is expected, not a
   # real hardening gap.
   if command -v blhc >/dev/null; then
-    out="$(blhc --all "$BUILDDIR/build-$series-$cn-$arch.log" 2>&1)"; rc=$?
-    if [ "$rc" = 0 ]; then
+    # `if out=$(cmd)` (not `out=$(cmd); rc=$?`) — under `set -e`, a failing
+    # command substitution used in a plain assignment aborts the script
+    # immediately, before the next line ever runs; using the assignment
+    # itself as an `if` condition is the one context bash exempts from -e.
+    if out="$(blhc --all "$BUILDDIR/build-$series-$cn-$arch.log" 2>&1)"; then
       echo "blhc: clean"
     elif [ "$out" = "No compiler commands!" ]; then
       echo "blhc: no compiler commands (expected, dkms flavour compiles nothing at build time)"
