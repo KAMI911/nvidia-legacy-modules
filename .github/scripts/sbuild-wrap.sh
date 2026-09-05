@@ -7,10 +7,10 @@ COMMON="$ROOT/common"
 BUILDDIR="${BUILDDIR:-$ROOT/../build}"
 series="${1:?}"; target="${2:?}"
 
-declare -A codename=(
-  [debian11]=bullseye [debian12]=bookworm [debian13]=trixie
-  [ubuntu2004]=focal [ubuntu2204]=jammy [ubuntu2404]=noble)
-cn="${codename[$target]:?unknown target}"
+# common/drivers.yaml is the single source of truth for target codenames
+# (also used by build-reprotest.yml's own chroot-creation step) — a
+# hardcoded duplicate list here once went stale and broke ubuntu2604.
+cn="$(python3 -c "import yaml;print(yaml.safe_load(open('$COMMON/drivers.yaml'))['targets']['$target']['codename'])")"
 
 # arches for this (series,target) from series.yaml
 mapfile -t arches < <("$(dirname "$0")/target-arches.sh" "$series" "$target")

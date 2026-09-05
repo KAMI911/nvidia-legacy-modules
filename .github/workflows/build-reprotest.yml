@@ -87,9 +87,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sbuild-logs-${{ matrix.series }}-${{ matrix.target }}
-          path: |
-            ${{ env.BUILDDIR }}/*.build
-            ${{ env.BUILDDIR }}/build-*.log
+          # not *.build: sbuild names those with a literal ISO-8601
+          # timestamp (colons and all), which upload-artifact@v4 rejects
+          # outright. build-*.log is our own name (sbuild-wrap.sh's `tee`
+          # target) and already has the full -v transcript.
+          path: ${{ env.BUILDDIR }}/build-*.log
           if-no-files-found: ignore
       - uses: actions/upload-artifact@v4
         with:
