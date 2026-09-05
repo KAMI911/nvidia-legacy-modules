@@ -2,7 +2,8 @@
 # autopkgtest/run.sh <series> <target>
 # Runs the archive autopkgtests against the freshly built .debs in a container.
 set -uo pipefail
-. "$(dirname "$0")/../lib.sh"
+here="$(cd "$(dirname "$0")" && pwd)"
+. "$here/../lib.sh"
 series="${1:?}"; target="${2:?}"
 
 declare -A img=(
@@ -14,7 +15,7 @@ command -v podman >/dev/null && OCI=podman || OCI=docker
 cid="apt-$series-$target"
 $OCI rm -f "$cid" >/dev/null 2>&1 || true
 set +e
-$OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$(dirname "$0")":/t:ro \
+$OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
   -e SERIES="$series" "$base" bash -c '
     set -e; export DEBIAN_FRONTEND=noninteractive
     apt-get update -qq
