@@ -28,7 +28,8 @@ tree="$BUILDDIR/dkms-src/$series-$target"
 mkdir -p "$tree"
 python3 "$COMMON/scripts/render-debian.py" --series "$series" --target "$target" --flavour dkms --out "$tree"
 ( cd "$BUILDDIR" && dpkg-source --no-check -b "$tree" )
-dsc="$(ls -t "$BUILDDIR"/nvidia-legacy-"$series"_*.dsc | head -1)"
+dsc="$(ls -t "$BUILDDIR"/nvidia-legacy-"$series"_*.dsc 2>/dev/null | head -1 || true)"
+[ -n "$dsc" ] || { echo "no .dsc for $series in $BUILDDIR"; exit 1; }
 
 first=1
 for arch in "${arches[@]}"; do

@@ -5,12 +5,23 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 BUILDDIR="${BUILDDIR:-$ROOT/../build}"
 series="${1:?}"; target="${2:?}"
-tree="$BUILDDIR/dkms-src/$series-$target"
-[ -d "$tree/debian" ] || { echo "render first"; exit 1; }
 
 command -v reprotest >/dev/null || { echo "reprotest not installed"; exit 1; }
 
-cd "$tree"
+# $BUILDDIR/dkms-src/$series-$target (sbuild-wrap.sh's render scratch dir)
+# holds only debian/ -- dpkg-source -b treats the missing payload as deleted
+# relative to the .orig, which is fine for building a *.dsc but not for
+# running dpkg-buildpackage directly here, which needs the real, complete
+# unpacked source (payload + debian/ on top) the way sbuild's chroot gets
+# it. Extract that properly from the .dsc sbuild-wrap.sh already built.
+dsc="$(ls -t "$BUILDDIR"/nvidia-legacy-"$series"_*.dsc 2>/dev/null | head -1 || true)"
+[ -n "$dsc" ] || { echo "no .dsc for $series in $BUILDDIR -- run sbuild-wrap.sh first"; exit 1; }
+work="$BUILDDIR/reprotest-src/$series-$target"
+rm -rf "$work"
+mkdir -p "$(dirname "$work")"
+dpkg-source -x "$dsc" "$work" >/dev/null
+
+cd "$work"
 # reprotest runs dpkg-buildpackage directly on this runner, not inside
 # sbuild's schroot -- unlike the sbuild-wrap.sh build, nothing has installed
 # this package's own Build-Depends here yet.
