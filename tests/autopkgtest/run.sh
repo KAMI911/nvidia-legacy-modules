@@ -8,7 +8,8 @@ series="${1:?}"; target="${2:?}"
 
 declare -A img=(
   [debian11]=debian:11 [debian12]=debian:12 [debian13]=debian:trixie
-  [ubuntu2004]=ubuntu:20.04 [ubuntu2204]=ubuntu:22.04 [ubuntu2404]=ubuntu:24.04)
+  [ubuntu2004]=ubuntu:20.04 [ubuntu2204]=ubuntu:22.04 [ubuntu2404]=ubuntu:24.04
+  [ubuntu2604]=ubuntu:26.04)
 base="${img[$target]:?}"
 command -v podman >/dev/null && OCI=podman || OCI=docker
 
@@ -19,7 +20,7 @@ $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
   -e SERIES="$series" "$base" bash -c '
     set -e; export DEBIAN_FRONTEND=noninteractive
     apt-get update -qq
-    apt-get install -y -qq /build/*.deb 2>/dev/null || { dpkg -i /build/*.deb; apt-get -f install -y -qq; }
+    apt-get install -y -qq /build/*.deb 2>/dev/null || { dpkg -i /build/*.deb || true; apt-get -f install -y -qq; }
     fail=0
     for t in install-purge file-conflicts xorg-dummy; do
       echo "===== $t ====="

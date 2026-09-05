@@ -2,7 +2,7 @@ nvidia-legacy-304xx-kernel-7.0.0-30-generic (304.137-0nvl1~resolute1) resolute; 
 
   * Reproducible build of NVIDIA 304.137 (304xx legacy series)
     for ubuntu2604 (resolute).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 4fc4bf3.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 7c4c68d.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 05 Sep 2026 07:29:31 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 05 Sep 2026 18:38:41 +0000
 

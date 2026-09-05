@@ -16,7 +16,8 @@ series="${1:?series}"; target="${2:?target}"; only="${4:-}"
 command -v podman >/dev/null && OCI=podman || OCI=docker
 declare -A img=(
   [debian11]=debian:11 [debian12]=debian:12 [debian13]=debian:trixie
-  [ubuntu2004]=ubuntu:20.04 [ubuntu2204]=ubuntu:22.04 [ubuntu2404]=ubuntu:24.04)
+  [ubuntu2004]=ubuntu:20.04 [ubuntu2204]=ubuntu:22.04 [ubuntu2404]=ubuntu:24.04
+  [ubuntu2604]=ubuntu:26.04)
 base="${img[$target]:?unknown target}"
 
 deb="$(ls "$BUILDDIR"/nvidia-legacy-"$series"-kernel-dkms_*_all.deb \
