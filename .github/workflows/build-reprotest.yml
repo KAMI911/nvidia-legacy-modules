@@ -1,7 +1,9 @@
 name: build-reprotest
 
 on:
-  pull_request:
+  # not pull_request: directly -- module-build/autopkgtest need this
+  # workflow's artifact and can't just run in parallel with it (see
+  # pr-checks.yml, which chains build -> dkms/autopkgtest with `needs:`).
   workflow_call:
     inputs:
       full:
