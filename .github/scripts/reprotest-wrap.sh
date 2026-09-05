@@ -16,7 +16,7 @@ cd "$tree"
 reprotest \
   --vary=-user_group \
   --vary=-build_path \
-  --vary=+kernel,+time,+timezone,+locales,+env,+umask,+aslr \
+  --vary=+kernel,+time,+timezone,+locales,+environment,+umask,+aslr \
   --store-dir="$BUILDDIR/reprotest-$series-$target" \
   "dpkg-buildpackage --no-sign -b" \
   "../*.deb"
