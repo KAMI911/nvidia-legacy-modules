@@ -2,7 +2,7 @@ nvidia-legacy-470xx-kernel-5.4.0-216-generic (470.256.02-0nvl1~focal1) focal; ur
 
   * Reproducible build of NVIDIA 470.256.02 (470xx legacy series)
     for ubuntu2004 (focal).
-  * Rendered by render-debian.py from nvidia-legacy-common @ b33a02d.
+  * Rendered by render-debian.py from nvidia-legacy-common @ bb4d285.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 05 Sep 2026 02:43:03 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 05 Sep 2026 04:27:30 +0000
 
