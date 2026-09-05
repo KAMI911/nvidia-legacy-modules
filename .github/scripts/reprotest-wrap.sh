@@ -31,10 +31,14 @@ sudo mk-build-deps --install --remove \
   debian/control
 
 # Vary everything reprotest safely can; keep build path constant (NVIDIA blob
-# Makefiles are not path-agnostic) and user_group constant (fakeroot quirks).
+# Makefiles are not path-agnostic), user_group constant (fakeroot quirks),
+# and domain_host constant (its unshare -r --uts needs unprivileged user
+# namespaces the GH Actions runner doesn't allow: "unshare: write failed
+# /proc/self/uid_map: Operation not permitted").
 reprotest \
   --vary=-user_group \
   --vary=-build_path \
+  --vary=-domain_host \
   --vary=+kernel,+time,+timezone,+locales,+environment,+umask,+aslr \
   --store-dir="$BUILDDIR/reprotest-$series-$target" \
   "dpkg-buildpackage --no-sign -b" \
