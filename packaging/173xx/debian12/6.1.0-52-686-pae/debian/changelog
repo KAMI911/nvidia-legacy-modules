@@ -2,7 +2,7 @@ nvidia-legacy-173xx-kernel-6.1.0-52-686-pae (173.14.39-0nvl1~bookworm1) bookworm
 
   * Reproducible build of NVIDIA 173.14.39 (173xx legacy series)
     for debian12 (bookworm).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 22e8d47.
+  * Rendered by render-debian.py from nvidia-legacy-common @ b33a02d.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Fri, 04 Sep 2026 06:43:43 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 05 Sep 2026 02:43:03 +0000
 
