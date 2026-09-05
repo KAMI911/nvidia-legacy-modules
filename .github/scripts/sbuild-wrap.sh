@@ -13,18 +13,7 @@ declare -A codename=(
 cn="${codename[$target]:?unknown target}"
 
 # arches for this (series,target) from series.yaml
-mapfile -t arches < <(python3 - "$ROOT/series.yaml" "$series" "$target" <<'PY'
-import sys, yaml
-doc = yaml.safe_load(open(sys.argv[1])); s, t = sys.argv[2], sys.argv[3]
-cfg = doc["build"][s]
-fam = "debian" if t.startswith("debian") else "ubuntu"
-for a in cfg["archs"].get(fam, []):
-    # i386 kernel module only where the distro ships an i386 kernel
-    if a == "i386" and fam == "ubuntu":
-        continue
-    print(a)
-PY
-)
+mapfile -t arches < <("$(dirname "$0")/target-arches.sh" "$series" "$target")
 [ "${#arches[@]}" -gt 0 ] && echo "arches: ${arches[*]}" || { echo "nothing to build"; exit 0; }
 
 mkdir -p "$BUILDDIR"

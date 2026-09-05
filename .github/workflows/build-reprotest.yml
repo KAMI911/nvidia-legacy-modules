@@ -57,6 +57,11 @@ jobs:
       - name: verify upstream blobs
         run: common/scripts/verify-run.sh ${{ matrix.series }}
       - name: create chroot
+        # One schroot per arch sbuild-wrap.sh will actually build for (e.g.
+        # debian11/12/13 need both amd64 and i386) -- sbuild --arch=i386
+        # looks for a chroot literally named <codename>-i386-sbuild; a lone
+        # amd64 chroot makes it fail with "Chroot ... architecture i386 not
+        # found" as soon as the loop reaches that arch.
         run: |
           set -e
           case "${{ matrix.target }}" in
@@ -64,8 +69,11 @@ jobs:
             ubuntu*)  MIR=http://azure.archive.ubuntu.com/ubuntu ;;
           esac
           CN=$(python3 -c "import yaml;print(yaml.safe_load(open('common/drivers.yaml'))['targets']['${{ matrix.target }}']['codename'])")
-          sudo sbuild-createchroot --make-sbuild-tarball=/srv/chroot/${CN}.tar.gz \
-            "$CN" "$(mktemp -d)" "$MIR"
+          ARCHES=$(.github/scripts/target-arches.sh "${{ matrix.series }}" "${{ matrix.target }}")
+          for a in $ARCHES; do
+            sudo sbuild-createchroot --arch="$a" --make-sbuild-tarball="/srv/chroot/${CN}-$a.tar.gz" \
+              "$CN" "$(mktemp -d)" "$MIR"
+          done
       - name: build (clean chroot, all arches)
         # sbuild-adduser (host deps step) only takes effect on a fresh login;
         # this shell never re-logged in, so the runner user's sbuild group
