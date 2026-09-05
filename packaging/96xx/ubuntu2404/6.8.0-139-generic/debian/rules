@@ -42,8 +42,6 @@ override_dh_auto_install:
 	# --- prebuilt module: compiled by dh_dkms against the build chroot kernel
 	debian/helpers/build-prebuilt-module.sh "$(PAYLOAD)" "$(DKMS_NAME)" "$(VERSION)"
 
-override_dh_dkms:
-
 execute_after_dh_fixperms:
 	# nvidia-modprobe is setuid root by design on real hardware installs
 	-chmod 4711 debian/nvidia-legacy-$(SERIES)-driver-bin/usr/bin/nvidia-modprobe

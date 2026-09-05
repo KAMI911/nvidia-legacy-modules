@@ -2,7 +2,7 @@ nvidia-legacy-470xx-kernel-6.8.0-138-generic (470.256.02-0nvl1~jammy1) jammy; ur
 
   * Reproducible build of NVIDIA 470.256.02 (470xx legacy series)
     for ubuntu2204 (jammy).
-  * Rendered by render-debian.py from nvidia-legacy-common @ bb4d285.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 4fc4bf3.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 05 Sep 2026 04:27:30 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 05 Sep 2026 07:29:31 +0000
 

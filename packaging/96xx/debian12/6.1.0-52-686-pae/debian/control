@@ -5,7 +5,6 @@ Maintainer: nvidia-legacy CI <ci@nvidia-legacy.invalid>
 Build-Depends:
  linux-headers-6.1.0-52-686-pae,
  debhelper-compat (= 13),
- dkms (>= 2.8),
  dpkg-dev,
  binutils,
 # gen-kernel-packages.py prepends the exact linux-headers-<ABI>; plus the
