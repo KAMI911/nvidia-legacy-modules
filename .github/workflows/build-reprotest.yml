@@ -47,7 +47,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y sbuild schroot debootstrap reprotest diffoscope \
-            devscripts blhc python3-yaml xz-utils curl
+            devscripts equivs blhc python3-yaml xz-utils curl
           sudo sbuild-adduser "$USER" || true
       - name: cache upstream .run
         uses: actions/cache@v4
