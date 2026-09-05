@@ -21,6 +21,9 @@ on:
         description: 'also apply _obs project meta + prjconf first'
         type: boolean
         default: true
+      xz_level:
+        description: '.orig.tar.xz compression (xz flags); -9e is small but slow, -3 is much faster/bigger'
+        default: '-3'
 
 permissions:
   contents: read
@@ -76,7 +79,7 @@ jobs:
       - name: gen + assemble + push
         env:
           OBS_PROJECT: ${{ vars.OSC_PROJECT || 'home:KAMI911:nvidia-legacy:modules' }}
-          NVL_XZ_LEVEL: '-9e'
+          NVL_XZ_LEVEL: ${{ github.event.inputs.xz_level || '-3' }}
           FILT_TARGET: ${{ github.event.inputs.target }}
           FILT_ABI: ${{ github.event.inputs.abi }}
         run: |

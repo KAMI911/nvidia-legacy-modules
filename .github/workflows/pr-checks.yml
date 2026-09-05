@@ -1,0 +1,26 @@
+name: pr-checks
+
+# Chains the reusable workflows that depend on each other with `needs:`, the
+# same pattern release.yml uses for the full matrix -- module-build and
+# autopkgtest both `actions/download-artifact` build-reprotest's .debs, so
+# they can't just run in parallel with it via their own pull_request
+# triggers (that raced every time: "Artifact not found for name: debs-...").
+# static.yml has no such dependency and keeps its own pull_request trigger.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-reprotest.yml
+
+  dkms:
+    needs: build
+    uses: ./.github/workflows/module-build.yml
+
+  autopkgtest:
+    needs: build
+    uses: ./.github/workflows/autopkgtest.yml

@@ -2,7 +2,7 @@ nvidia-legacy-96xx-kernel-6.1.0-52-amd64 (96.43.23-0nvl1~bookworm1) bookworm; ur
 
   * Reproducible build of NVIDIA 96.43.23 (96xx legacy series)
     for debian12 (bookworm).
-  * Rendered by render-debian.py from nvidia-legacy-common @ b238ea3.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 7c4c68d.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 03 Sep 2026 17:19:30 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 05 Sep 2026 18:38:41 +0000
 
