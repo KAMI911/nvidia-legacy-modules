@@ -24,7 +24,7 @@ $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
     # (i386) does not match system (amd64)") unless multiarch is enabled.
     dpkg --add-architecture i386 || true
     apt-get update -qq
-    apt-get install -y -qq /build/*.deb 2>/dev/null || { dpkg -i /build/*.deb || true; apt-get update -qq; apt-get -f install -y -qq; }
+    apt-get install -y -qq /build/*.deb 2>/dev/null || { dpkg -i /build/*.deb || true; apt-get update -qq; apt-get -f install -y -qq --fix-missing; }
     fail=0
     for t in install-purge file-conflicts xorg-dummy; do
       echo "===== $t ====="
