@@ -24,9 +24,14 @@ $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
     # (i386) does not match system (amd64)") unless multiarch is enabled.
     dpkg --add-architecture i386 || true
     apt-get update -qq
-    apt-get install -y -qq /build/*.deb 2>/dev/null || { dpkg -i /build/*.deb || true; apt-get update -qq; apt-get -f install -y -qq --fix-missing; }
+    apt-get install -y -qq /build/*.deb 2>/dev/null || { dpkg -i /build/*.deb || true; apt-get update -qq; apt-get -f install -y -qq --fix-missing --no-upgrade; }
     fail=0
-    for t in install-purge file-conflicts xorg-dummy; do
+    # install-purge last: it ends by purging every nvidia-legacy-* package,
+    # and since these came from a local .deb (not a real apt source), once
+    # purged apt no longer knows them as installable -- the other two tests
+    # each call apt-get install nvidia-legacy-... themselves and would then
+    # fail with "Unable to locate package".
+    for t in file-conflicts xorg-dummy install-purge; do
       echo "===== $t ====="
       bash /t/$t.sh "$SERIES" || fail=1
     done
