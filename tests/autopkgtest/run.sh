@@ -19,26 +19,16 @@ set +e
 $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
   -e SERIES="$series" "$base" bash -c '
     set -e; export DEBIAN_FRONTEND=noninteractive
-    # debian11/12/13 also ship an i386 driver-libs .deb (32-bit compat libs);
-    # a plain amd64 container refuses it outright ("package architecture
-    # (i386) does not match system (amd64)") unless multiarch is enabled.
-    dpkg --add-architecture i386 || true
+    # debian11/12/13 also ship an i386 driver-libs .deb (32-bit compat libs)
+    # -- irrelevant to what these tests check (the amd64 driver installs and
+    # works) and pulling in i386 multiarch has repeatedly cascaded into
+    # unrelated i386/amd64 base-image packages 404ing against a stuck
+    # bullseye-security CDN cache (same edge IP every retry, so retrying
+    # apt-get update never helped). Skip the i386 .deb here entirely.
     apt-get update -qq
-    apt-get install -y -qq /build/*.deb 2>/dev/null || {
-      dpkg -i /build/*.deb || true
-      # bullseye-security has been intermittently serving a stale Packages
-      # index (references already-superseded point-release .deb files no
-      # longer in the pool, on any CDN edge with an old cached copy) -- a
-      # few retries against a fresh apt-get update usually lands on a
-      # current edge.
-      n=0
-      until apt-get -f install -y -qq --fix-missing --no-upgrade; do
-        n=$((n + 1))
-        [ "$n" -ge 5 ] && { echo "apt -f install still failing after $n tries"; break; }
-        echo "apt -f install failed, retrying after apt-get update (try $n)"
-        sleep 10
-        apt-get update -qq
-      done
+    apt-get install -y -qq /build/*_amd64.deb /build/*_all.deb 2>/dev/null || {
+      dpkg -i /build/*_amd64.deb /build/*_all.deb || true
+      apt-get -f install -y -qq --no-upgrade
     }
     fail=0
     # install-purge last: it ends by purging every nvidia-legacy-* package,
