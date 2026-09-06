@@ -19,8 +19,12 @@ set +e
 $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
   -e SERIES="$series" "$base" bash -c '
     set -e; export DEBIAN_FRONTEND=noninteractive
+    # debian11/12/13 also ship an i386 driver-libs .deb (32-bit compat libs);
+    # a plain amd64 container refuses it outright ("package architecture
+    # (i386) does not match system (amd64)") unless multiarch is enabled.
+    dpkg --add-architecture i386 || true
     apt-get update -qq
-    apt-get install -y -qq /build/*.deb 2>/dev/null || { dpkg -i /build/*.deb || true; apt-get -f install -y -qq; }
+    apt-get install -y -qq /build/*.deb 2>/dev/null || { dpkg -i /build/*.deb || true; apt-get update -qq; apt-get -f install -y -qq; }
     fail=0
     for t in install-purge file-conflicts xorg-dummy; do
       echo "===== $t ====="

@@ -23,6 +23,7 @@ DEB = {
 }
 UBU = {
     "ubuntu2004": "focal", "ubuntu2204": "jammy", "ubuntu2404": "noble",
+    "ubuntu2604": "resolute",
 }
 
 
