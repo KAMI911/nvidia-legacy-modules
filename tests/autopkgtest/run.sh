@@ -24,7 +24,22 @@ $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
     # (i386) does not match system (amd64)") unless multiarch is enabled.
     dpkg --add-architecture i386 || true
     apt-get update -qq
-    apt-get install -y -qq /build/*.deb 2>/dev/null || { dpkg -i /build/*.deb || true; apt-get update -qq; apt-get -f install -y -qq --fix-missing --no-upgrade; }
+    apt-get install -y -qq /build/*.deb 2>/dev/null || {
+      dpkg -i /build/*.deb || true
+      # bullseye-security has been intermittently serving a stale Packages
+      # index (references already-superseded point-release .deb files no
+      # longer in the pool, on any CDN edge with an old cached copy) -- a
+      # few retries against a fresh apt-get update usually lands on a
+      # current edge.
+      n=0
+      until apt-get -f install -y -qq --fix-missing --no-upgrade; do
+        n=$((n + 1))
+        [ "$n" -ge 5 ] && { echo "apt -f install still failing after $n tries"; break; }
+        echo "apt -f install failed, retrying after apt-get update (try $n)"
+        sleep 10
+        apt-get update -qq
+      done
+    }
     fail=0
     # install-purge last: it ends by purging every nvidia-legacy-* package,
     # and since these came from a local .deb (not a real apt source), once
