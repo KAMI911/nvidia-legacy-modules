@@ -6,6 +6,10 @@ set -eu
 SERIES="${1:?series}"
 PKG="nvidia-legacy-${SERIES}-driver"
 export DEBIAN_FRONTEND=noninteractive
+# autoremove --purge below may want to drop `sudo` (pulled in as an auto
+# dependency of something); sudo's own prerm refuses in a container with no
+# root password set unless told it's intentional.
+export SUDO_FORCE_REMOVE=yes
 
 before="$(mktemp)"; after="$(mktemp)"
 dpkg -l | awk '{print $2}' | sort > "$before"
