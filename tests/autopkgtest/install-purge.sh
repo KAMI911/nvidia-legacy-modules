@@ -6,15 +6,23 @@ set -eu
 SERIES="${1:?series}"
 PKG="nvidia-legacy-${SERIES}-driver"
 export DEBIAN_FRONTEND=noninteractive
+# autoremove --purge below may want to drop `sudo` (pulled in as an auto
+# dependency of something); sudo's own prerm refuses in a container with no
+# root password set unless told it's intentional.
+export SUDO_FORCE_REMOVE=yes
+. /t/apt-lib.sh
 
 before="$(mktemp)"; after="$(mktemp)"
 dpkg -l | awk '{print $2}' | sort > "$before"
 
 echo ":: install $PKG"
-apt-get install -y "$PKG"
+apt_install_reconciled "$PKG"
 
 echo ":: verify pieces landed"
-dpkg -s "nvidia-legacy-${SERIES}-driver-libs" >/dev/null
+# driver-libs is Multi-Arch: same -- on targets that also install the :i386
+# companion, a bare package name is ambiguous ("more than one installed
+# instance"); pin the query to :amd64.
+dpkg -s "nvidia-legacy-${SERIES}-driver-libs:amd64" >/dev/null
 dpkg -s "nvidia-legacy-${SERIES}-kernel-support" >/dev/null
 test -e /lib/modprobe.d/nvidia-blacklists-nouveau.conf
 test -e "/usr/share/nvidia-legacy-${SERIES}/xorg.conf.d/20-nvidia-legacy-${SERIES}.conf"

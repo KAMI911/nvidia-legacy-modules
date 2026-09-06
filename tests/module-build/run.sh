@@ -9,20 +9,22 @@
 #   * `depmod -n` shows no unresolved symbols for the nvidia modules
 # No GPU required — we never insmod here (that's qemu/run.sh).
 set -euo pipefail
-. "$(dirname "$0")/../lib.sh"
+here="$(cd "$(dirname "$0")" && pwd)"
+. "$here/../lib.sh"
 series="${1:?series}"; target="${2:?target}"; only="${4:-}"
 
 command -v podman >/dev/null && OCI=podman || OCI=docker
 declare -A img=(
   [debian11]=debian:11 [debian12]=debian:12 [debian13]=debian:trixie
-  [ubuntu2004]=ubuntu:20.04 [ubuntu2204]=ubuntu:22.04 [ubuntu2404]=ubuntu:24.04)
+  [ubuntu2004]=ubuntu:20.04 [ubuntu2204]=ubuntu:22.04 [ubuntu2404]=ubuntu:24.04
+  [ubuntu2604]=ubuntu:26.04)
 base="${img[$target]:?unknown target}"
 
 deb="$(ls "$BUILDDIR"/nvidia-legacy-"$series"-kernel-dkms_*_all.deb \
         "$BUILDDIR"/nvidia-legacy-"$series"-kernel-dkms_*.deb 2>/dev/null | head -1)" \
   || { no "no kernel-dkms .deb in $BUILDDIR"; summary; exit 1; }
 
-mapfile -t rows < <(python3 - "$(dirname "$0")/kernels.yaml" "$target" "$only" <<'PY'
+mapfile -t rows < <(python3 - "$here/kernels.yaml" "$target" "$only" <<'PY'
 import sys, yaml
 doc = yaml.safe_load(open(sys.argv[1])); tgt, only = sys.argv[2], sys.argv[3]
 for e in doc.get(tgt, []):
@@ -38,7 +40,7 @@ for row in "${rows[@]}"; do
   cid="dkmstest-$series-$target-${abi//[^a-zA-Z0-9]/_}"
   $OCI rm -f "$cid" >/dev/null 2>&1 || true
   set +e
-  $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$(dirname "$0")":/t:ro \
+  $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
     -e SERIES="$series" -e KABI="$abi" -e KPKG="$pkg" -e KFETCH="$fetch" -e KARCH="$arch" \
     -e DEB="/build/$(basename "$deb")" \
     "$base" /t/_in-container.sh

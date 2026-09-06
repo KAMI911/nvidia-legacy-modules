@@ -61,7 +61,12 @@ for tree in "$ROOT"/packaging/"$series"/*/*/; do
   if [ "$DRY" = 1 ]; then
     echo "   would PUT _meta + commit $(basename "$dsc")"; n=$((n+1)); continue
   fi
-  osc api -X PUT "/source/$PROJECT/$pkg/_meta" --data "$meta" >/dev/null
+  # Only set _meta on first creation: re-PUTting an unchanged <person
+  # role="maintainer"/> on every sync makes OBS re-notify the maintainer by
+  # email each run, for every package, every time.
+  if ! osc api "/source/$PROJECT/$pkg/_meta" >/dev/null 2>&1; then
+    osc api -X PUT "/source/$PROJECT/$pkg/_meta" --data "$meta" >/dev/null
+  fi
 
   wd="$(mktemp -d)"
   ( cd "$wd" && osc co "$PROJECT" "$pkg" ) >/dev/null
