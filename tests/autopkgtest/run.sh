@@ -19,16 +19,17 @@ set +e
 $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
   -e SERIES="$series" "$base" bash -c '
     set -e; export DEBIAN_FRONTEND=noninteractive
+    . /t/apt-lib.sh
     # debian11/12/13 also ship an i386 driver-libs .deb (32-bit compat libs)
     # -- irrelevant to what these tests check (the amd64 driver installs and
     # works) and pulling in i386 multiarch has repeatedly cascaded into
     # unrelated i386/amd64 base-image packages 404ing against a stuck
-    # bullseye-security CDN cache (same edge IP every retry, so retrying
-    # apt-get update never helped). Skip the i386 .deb here entirely.
+    # bullseye-security CDN cache. Skip the i386 .deb here entirely.
+    apt_disable_security_pocket
     apt-get update -qq
-    apt-get install -y -qq /build/*_amd64.deb /build/*_all.deb 2>/dev/null || {
+    apt_install_reconciled /build/*_amd64.deb /build/*_all.deb >/dev/null || {
       dpkg -i /build/*_amd64.deb /build/*_all.deb || true
-      apt-get -f install -y -qq --no-upgrade
+      apt-get -f install -y -qq --no-upgrade --no-install-recommends
     }
     fail=0
     # install-purge last: it ends by purging every nvidia-legacy-* package,

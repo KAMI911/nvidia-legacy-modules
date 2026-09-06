@@ -10,12 +10,13 @@ export DEBIAN_FRONTEND=noninteractive
 # dependency of something); sudo's own prerm refuses in a container with no
 # root password set unless told it's intentional.
 export SUDO_FORCE_REMOVE=yes
+. /t/apt-lib.sh
 
 before="$(mktemp)"; after="$(mktemp)"
 dpkg -l | awk '{print $2}' | sort > "$before"
 
 echo ":: install $PKG"
-apt-get install -y "$PKG"
+apt_install_reconciled "$PKG"
 
 echo ":: verify pieces landed"
 # driver-libs is Multi-Arch: same -- on targets that also install the :i386

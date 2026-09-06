@@ -7,8 +7,9 @@ set -eu
 SERIES="${1:?series}"
 export DEBIAN_FRONTEND=noninteractive
 LOG=/tmp/xorg-dummy.log
+. /t/apt-lib.sh
 
-apt-get install -y "nvidia-legacy-${SERIES}-driver" xserver-xorg-core xserver-xorg-video-dummy xvfb >/dev/null
+apt_install_reconciled "nvidia-legacy-${SERIES}-driver" xserver-xorg-core xserver-xorg-video-dummy xvfb >/dev/null
 
 cat >/tmp/nvidia-dummy.conf <<EOF
 Section "ServerFlags"
