@@ -22,7 +22,7 @@ jobs:
 
   dkms:
     needs: build
-    uses: ./.github/workflows/dkms-matrix.yml
+    uses: ./.github/workflows/module-build.yml
     with: { full: true }
 
   autopkgtest:
