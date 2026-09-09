@@ -4,7 +4,10 @@
 set -eu
 export DEBIAN_FRONTEND=noninteractive
 
-apt-get update -qq
+# bullseye-security's Release file is genuinely expired now (Debian 11 EOL,
+# not coming back) -- apt-get update fails outright (exit 100) otherwise,
+# well before we ever get to install anything.
+apt-get update -qq -o Acquire::Check-Valid-Until=false
 apt-get install -y -qq --no-install-recommends \
   dkms build-essential kmod "$KPKG" dpkg-dev 2>/dev/null || {
     echo "headers $KPKG not installable"; exit 77; }
