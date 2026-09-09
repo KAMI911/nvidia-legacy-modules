@@ -26,7 +26,10 @@ $OCI run --name "$cid" -v "$BUILDDIR":/build:ro -v "$here":/t:ro \
     # unrelated i386/amd64 base-image packages 404ing against a stuck
     # bullseye-security CDN cache. Skip the i386 .deb here entirely.
     apt_disable_security_pocket
-    apt-get update -qq
+    # The bullseye-security Release file is genuinely expired now (Debian 11
+    # EOL, not coming back) -- apt-get update fails outright (exit 100)
+    # otherwise, before the pin above even gets a chance to matter.
+    apt-get update -qq -o Acquire::Check-Valid-Until=false
     apt_install_reconciled /build/*_amd64.deb /build/*_all.deb >/dev/null || {
       dpkg -i /build/*_amd64.deb /build/*_all.deb || true
       apt-get -f install -y -qq --no-upgrade --no-install-recommends
