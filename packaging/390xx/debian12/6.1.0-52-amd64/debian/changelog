@@ -2,7 +2,7 @@ nvidia-legacy-390xx-kernel-6.1.0-52-amd64 (390.157-0nvl1~bookworm1) bookworm; ur
 
   * Reproducible build of NVIDIA 390.157 (390xx legacy series)
     for debian12 (bookworm).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 6e6bde1.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 336adb6.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 10 Sep 2026 07:28:38 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 12 Sep 2026 10:06:00 +0000
 
