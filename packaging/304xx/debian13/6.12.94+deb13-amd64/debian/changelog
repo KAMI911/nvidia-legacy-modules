@@ -2,7 +2,7 @@ nvidia-legacy-304xx-kernel-6.12.94+deb13-amd64 (304.137-0nvl1~trixie1) trixie; u
 
   * Reproducible build of NVIDIA 304.137 (304xx legacy series)
     for debian13 (trixie).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 803c585.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 6e6bde1.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Mon, 07 Sep 2026 09:26:13 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Thu, 10 Sep 2026 07:28:38 +0000
 
