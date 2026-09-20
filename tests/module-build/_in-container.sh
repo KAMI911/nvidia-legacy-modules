@@ -40,7 +40,13 @@ for ko in nvidia nvidia-modeset nvidia-drm nvidia-uvm; do
     [ -n "$sv" ] || { echo "   !! empty srcversion"; rc=1; }
   else
     case "$ko" in
-      nvidia|nvidia-modeset|nvidia-uvm) echo "   !! $ko.ko missing"; rc=1;;
+      nvidia|nvidia-uvm) echo "   !! $ko.ko missing"; rc=1;;
+      # nvidia-modeset.ko: only ~358.xx+ driver generations ship a separate
+      # modeset kernel module at all -- the legacy pre-modeset-era series
+      # (71xx/96xx/173xx/304xx/340xx) never had one, modesetting there goes
+      # through the DDX/Xorg driver instead. Treat its absence the same way
+      # as nvidia-drm.ko: acceptable when missing, but still fully validated
+      # (vermagic/srcversion/symbols) above whenever a series does ship it.
       *) echo "   ($ko.ko absent — acceptable on this kernel)";;
     esac
   fi
