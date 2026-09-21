@@ -16,6 +16,8 @@ debian11:
   - {abi: "6.1.0-0.deb11.13-amd64", pkg: "linux-headers-6.1.0-0.deb11.13-amd64", ver: "*", fetch: hwe, blocking: true}
   - {abi: 5.10.0-32-amd64, pkg: linux-headers-5.10.0-32-amd64, ver: 5.10.223-1, fetch: archive, blocking: false}
   - {abi: 5.10.0-32-686-pae, pkg: linux-headers-5.10.0-32-686-pae, ver: 5.10.223-1, fetch: archive, blocking: false, arch: i386}
+  - {abi: 5.10.0-30-amd64, pkg: linux-headers-5.10.0-30-amd64, ver: 5.10.218-1, fetch: archive, blocking: false}
+  - {abi: 5.10.0-30-686-pae, pkg: linux-headers-5.10.0-30-686-pae, ver: 5.10.218-1, fetch: archive, blocking: false, arch: i386}
 
 debian12:
   - {abi: "6.1.0-25-amd64", pkg: "linux-headers-6.1.0-25-amd64", ver: "6.1.106-3", fetch: archive, blocking: true}
@@ -23,6 +25,8 @@ debian12:
   - {abi: "6.11-bpo-amd64", pkg: "linux-headers-amd64", ver: "*", fetch: backports, blocking: false}
   - {abi: 6.1.0-50-amd64, pkg: linux-headers-6.1.0-50-amd64, ver: 6.1.176-1, fetch: archive, blocking: false}
   - {abi: 6.1.0-50-686-pae, pkg: linux-headers-6.1.0-50-686-pae, ver: 6.1.176-1, fetch: archive, blocking: false, arch: i386}
+  - {abi: 6.1.0-47-amd64, pkg: linux-headers-6.1.0-47-amd64, ver: 6.1.170-3, fetch: archive, blocking: false}
+  - {abi: 6.1.0-47-686-pae, pkg: linux-headers-6.1.0-47-686-pae, ver: 6.1.170-3, fetch: archive, blocking: false, arch: i386}
 
 debian13:
   - {abi: "6.12.0-amd64", pkg: "linux-headers-6.12.0-amd64", ver: "*", fetch: archive, blocking: true}
@@ -35,12 +39,14 @@ ubuntu2004:
   - {abi: "5.4.0-200-generic", pkg: "linux-headers-5.4.0-200-generic", ver: "*", fetch: archive, blocking: false}
   - {abi: "5.15.0-125-generic", pkg: "linux-headers-5.15.0-125-generic", ver: "*", fetch: hwe, blocking: true}
   - {abi: 5.15.0-139-generic, pkg: linux-headers-5.15.0-139-generic, ver: 5.15.0-139.149~20.04.1, fetch: archive, blocking: false}
+  - {abi: 5.15.0-138-generic, pkg: linux-headers-5.15.0-138-generic, ver: 5.15.0-138.148~20.04.1, fetch: archive, blocking: false}
 
 ubuntu2204:
   - {abi: "5.15.0-125-generic", pkg: "linux-headers-5.15.0-125-generic", ver: "*", fetch: archive, blocking: true}
   - {abi: "6.8.0-45-generic", pkg: "linux-headers-6.8.0-45-generic", ver: "*", fetch: hwe, blocking: true}
   - {abi: "6.11-mainline", pkg: "linux-headers-6.11.0-*", ver: "*", fetch: mainline, blocking: false}
   - {abi: 6.8.0-138-generic, pkg: linux-headers-6.8.0-138-generic, ver: 6.8.0-138.138~22.04.1, fetch: archive, blocking: false}
+  - {abi: 6.8.0-136-generic, pkg: linux-headers-6.8.0-136-generic, ver: 6.8.0-136.136~22.04.1, fetch: archive, blocking: false}
 
 ubuntu2404:
   - {abi: "6.8.0-45-generic", pkg: "linux-headers-6.8.0-45-generic", ver: "*", fetch: archive, blocking: true}
@@ -48,9 +54,11 @@ ubuntu2404:
   - {abi: "6.14-kernel-ppa", pkg: "linux-headers-6.14.0-*", ver: "*", fetch: kernel-ppa, blocking: false}
   - {abi: "latest-mainline", pkg: "linux-headers-*", ver: "*", fetch: mainline, blocking: false}
   - {abi: 7.0.0-31-generic, pkg: linux-headers-7.0.0-31-generic, ver: 7.0.0-31.31~24.04.1, fetch: archive, blocking: false}
+  - {abi: 7.0.0-30-generic, pkg: linux-headers-7.0.0-30-generic, ver: 7.0.0-30.30~24.04.1, fetch: archive, blocking: false}
 
 ubuntu2604:
   # new entry, never yet proven green -- non-blocking until a run passes
   # (matches this file's own documented policy above).
   - {abi: "7.0.0-30-generic", pkg: "linux-headers-7.0.0-30-generic", ver: "*", fetch: archive, blocking: false}
   - {abi: 7.0.0-31-generic, pkg: linux-headers-7.0.0-31-generic, ver: 7.0.0-31.31, fetch: archive, blocking: false}
+  - {abi: 7.0.0-29-generic, pkg: linux-headers-7.0.0-29-generic, ver: 7.0.0-29.29, fetch: archive, blocking: false}
