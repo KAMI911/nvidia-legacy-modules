@@ -38,5 +38,29 @@ jobs:
           path: ../build
       - run: sudo apt-get update -qq && sudo apt-get install -y podman python3-yaml
       - name: install / purge / conflicts / xorg-abi
+        id: test
         run: tests/autopkgtest/run.sh ${{ matrix.series }} ${{ matrix.target }}
         continue-on-error: ${{ !matrix.blocking }}
+      - name: emit autopkgtest verdict
+        if: always()
+        run: |
+          python3 .github/scripts/emit-verdict.py "${{ matrix.series }}" "${{ matrix.target }}" \
+            "${{ steps.test.outcome }}" "verdict-${{ matrix.series }}-${{ matrix.target }}.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verdict-autopkgtest-${{ matrix.series }}-${{ matrix.target }}
+          path: verdict-${{ matrix.series }}-${{ matrix.target }}.json
+          if-no-files-found: ignore
+
+  verdicts:
+    needs: autopkgtest
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with: { pattern: verdict-autopkgtest-*, path: verdicts, merge-multiple: true }
+      - run: python3 .github/scripts/combine-verdicts.py autopkgtest verdicts autopkgtest-verdicts.json
+      - uses: actions/upload-artifact@v4
+        with: { name: autopkgtest-verdicts, path: autopkgtest-verdicts.json }
