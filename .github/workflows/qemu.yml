@@ -42,5 +42,29 @@ jobs:
           sudo apt-get install -y qemu-system-x86 qemu-utils cloud-image-utils \
             dpkg-dev python3-yaml curl
       - name: no-GPU module load + Xorg ABI in a real VM
+        id: test
         run: tests/qemu/run.sh ${{ matrix.series }} ${{ matrix.target }}
         continue-on-error: ${{ !matrix.blocking }}
+      - name: emit qemu verdict
+        if: always()
+        run: |
+          python3 .github/scripts/emit-verdict.py "${{ matrix.series }}" "${{ matrix.target }}" \
+            "${{ steps.test.outcome }}" "verdict-${{ matrix.series }}-${{ matrix.target }}.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verdict-qemu-${{ matrix.series }}-${{ matrix.target }}
+          path: verdict-${{ matrix.series }}-${{ matrix.target }}.json
+          if-no-files-found: ignore
+
+  verdicts:
+    needs: qemu
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with: { pattern: verdict-qemu-*, path: verdicts, merge-multiple: true }
+      - run: python3 .github/scripts/combine-verdicts.py qemu verdicts qemu-verdicts.json
+      - uses: actions/upload-artifact@v4
+        with: { name: qemu-verdicts, path: qemu-verdicts.json }

@@ -25,3 +25,14 @@ jobs:
         run: codespell --skip='.git,*.run' -L crate,ba,te || true
       - name: render sanity (all combos)
         run: python3 .github/scripts/render-all.py --flavour dkms
+      - name: emit static verdict (pass)
+        if: success()
+        run: python3 .github/scripts/emit-static-verdicts.py pass static-verdicts.json
+      - name: emit static verdict (fail)
+        if: failure()
+        run: python3 .github/scripts/emit-static-verdicts.py fail static-verdicts.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: static-verdicts
+          path: static-verdicts.json

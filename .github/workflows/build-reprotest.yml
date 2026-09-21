@@ -77,13 +77,34 @@ jobs:
               "$CN" "$(mktemp -d)" "$MIR"
           done
       - name: build (clean chroot, all arches)
+        id: sbuild
         # sbuild-adduser (host deps step) only takes effect on a fresh login;
         # this shell never re-logged in, so the runner user's sbuild group
         # membership needs `sg` to become active for this step.
         run: sg sbuild -c ".github/scripts/sbuild-wrap.sh ${{ matrix.series }} ${{ matrix.target }}"
       - name: reprotest (bit-identical rebuild)
+        id: reprotest
         run: .github/scripts/reprotest-wrap.sh ${{ matrix.series }} ${{ matrix.target }}
         continue-on-error: ${{ !matrix.blocking }}
+      - name: emit build/reprotest verdicts
+        if: always()
+        run: |
+          python3 .github/scripts/emit-verdict.py "${{ matrix.series }}" "${{ matrix.target }}" \
+            "${{ steps.sbuild.outcome }}" "build-verdict-${{ matrix.series }}-${{ matrix.target }}.json"
+          python3 .github/scripts/emit-verdict.py "${{ matrix.series }}" "${{ matrix.target }}" \
+            "${{ steps.reprotest.outcome || 'skipped' }}" "reprotest-verdict-${{ matrix.series }}-${{ matrix.target }}.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verdict-build-${{ matrix.series }}-${{ matrix.target }}
+          path: build-verdict-${{ matrix.series }}-${{ matrix.target }}.json
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verdict-reprotest-${{ matrix.series }}-${{ matrix.target }}
+          path: reprotest-verdict-${{ matrix.series }}-${{ matrix.target }}.json
+          if-no-files-found: ignore
       - name: upload sbuild logs on failure
         if: failure()
         uses: actions/upload-artifact@v4
@@ -104,3 +125,20 @@ jobs:
             ${{ env.BUILDDIR }}/*.tar.*
             ${{ env.BUILDDIR }}/*.buildinfo
             ${{ env.BUILDDIR }}/*.changes
+
+  verdicts:
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with: { pattern: verdict-build-*, path: build-verdicts, merge-multiple: true }
+      - run: python3 .github/scripts/combine-verdicts.py build build-verdicts build-verdicts.json
+      - uses: actions/upload-artifact@v4
+        with: { name: build-verdicts, path: build-verdicts.json }
+      - uses: actions/download-artifact@v4
+        with: { pattern: verdict-reprotest-*, path: reprotest-verdicts, merge-multiple: true }
+      - run: python3 .github/scripts/combine-verdicts.py reprotest reprotest-verdicts reprotest-verdicts.json
+      - uses: actions/upload-artifact@v4
+        with: { name: reprotest-verdicts, path: reprotest-verdicts.json }

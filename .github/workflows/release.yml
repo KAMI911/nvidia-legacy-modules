@@ -39,6 +39,8 @@ jobs:
     needs: [static, build, dkms, autopkgtest, qemu]
     runs-on: ubuntu-latest
     environment: obs            # requires manual approval + holds OSC_* secrets
+    env:
+      OBS_PROJECT: ${{ vars.OSC_PROJECT || 'home:KAMI911:nvidia-legacy:modules' }}
     steps:
       - uses: actions/checkout@v5
         with: { submodules: true }
