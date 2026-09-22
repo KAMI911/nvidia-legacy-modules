@@ -66,9 +66,18 @@ jobs:
           cat passed.txt
       - name: sync source packages to OBS + set publish flags
         run: |
+          # obs-sync.sh syncs EVERY ABI of a series in one pass, so run it once
+          # per series, not once per (series,target) row — passed.txt has one
+          # row per green target, and re-running the whole series per row was
+          # multiplying the sync work ~7x (one per distro target) and blowing
+          # past the job's 6h timeout before publish flags were even reached.
+          cut -d' ' -f1 passed.txt | sort -u | while read -r series; do
+            [ -n "$series" ] || continue
+            echo "sync $series"
+            BUILDDIR=../build tools/obs-sync.sh "$series"
+          done
           while read -r series target; do
             echo "publish $series/$target"
-            BUILDDIR=../build tools/obs-sync.sh "$series"
             python3 .github/scripts/obs-set-publish.py "$series" "$target" enable
           done < passed.txt
       - name: disable publish for combos that did NOT pass
