@@ -6,7 +6,7 @@ set -e
 # deconfigure. This has to run here rather than in postrm: by postrm time
 # dpkg has already removed our nvidia-legacy-alt/ files, so there would be
 # nothing left to enumerate the registered alternatives from.
-PKG=nvidia-legacy-340xx-driver-libs
+PKG="nvidia-legacy-340xx-driver-libs"
 
 deregister_alt() {
     # $1 = canonical path, $2 = our private copy (same pair postinst used)
