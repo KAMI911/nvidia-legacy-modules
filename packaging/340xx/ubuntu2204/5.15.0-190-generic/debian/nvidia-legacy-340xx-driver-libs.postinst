@@ -9,7 +9,11 @@ set -e
 # package would otherwise own it and register our copy as a
 # update-alternatives choice for it, so both can be installed side by
 # side instead of file-conflicting outright.
-PKG=nvidia-legacy-340xx-driver-libs
+SERIES=340xx
+PKG="nvidia-legacy-${SERIES}-driver-libs"
+# alternatives priority: the series number itself (e.g. 340xx -> 340), so a
+# newer series installed alongside an older one wins by default.
+PRIO="${SERIES%xx}"
 
 register_alt() {
     # $1 = canonical path (e.g. /usr/lib/x86_64-linux-gnu/libGL.so.1)
@@ -17,7 +21,7 @@ register_alt() {
     [ -e "$2" ] || return 0
     name="$(basename "$1")-$(basename "$(dirname "$1")")"
     dpkg-divert --package "$PKG" --rename --divert "$1.nvidia-legacy" --add "$1" >/dev/null
-    update-alternatives --install "$1" "$name" "$2" 340
+    update-alternatives --install "$1" "$name" "$2" "$PRIO"
 }
 
 case "$1" in

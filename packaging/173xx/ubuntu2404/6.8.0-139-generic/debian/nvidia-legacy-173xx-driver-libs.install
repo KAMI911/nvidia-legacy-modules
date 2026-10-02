@@ -1,2 +1,3 @@
 usr/lib/*/lib*.so.*
+usr/lib/*/nvidia-legacy-alt/*
 usr/share/doc/nvidia-legacy-driver-libs/*
