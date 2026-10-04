@@ -2,7 +2,7 @@ nvidia-legacy-340xx-kernel-5.10.0-46-686-pae (340.108-0nvl1~bullseye1) bullseye;
 
   * Reproducible build of NVIDIA 340.108 (340xx legacy series)
     for debian11 (bullseye).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 195b689.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 8661b1a.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 03 Oct 2026 00:05:37 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sun, 04 Oct 2026 19:49:04 +0000
 

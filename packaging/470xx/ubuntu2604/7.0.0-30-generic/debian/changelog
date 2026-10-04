@@ -2,7 +2,7 @@ nvidia-legacy-470xx-kernel-7.0.0-30-generic (470.256.02-0nvl1~resolute1) resolut
 
   * Reproducible build of NVIDIA 470.256.02 (470xx legacy series)
     for ubuntu2604 (resolute).
-  * Rendered by render-debian.py from nvidia-legacy-common @ 195b689.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 8661b1a.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sat, 03 Oct 2026 00:05:37 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sun, 04 Oct 2026 19:49:04 +0000
 
