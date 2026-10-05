@@ -41,6 +41,7 @@ ubuntu2004:
   - {abi: 5.15.0-139-generic, pkg: linux-headers-5.15.0-139-generic, ver: 5.15.0-139.149~20.04.1, fetch: archive, blocking: false}
   - {abi: 5.15.0-138-generic, pkg: linux-headers-5.15.0-138-generic, ver: 5.15.0-138.148~20.04.1, fetch: archive, blocking: false}
   - {abi: 5.15.0-136-generic, pkg: linux-headers-5.15.0-136-generic, ver: 5.15.0-136.147~20.04.1, fetch: archive, blocking: false}
+  - {abi: 5.15.0-134-generic, pkg: linux-headers-5.15.0-134-generic, ver: 5.15.0-134.145~20.04.1, fetch: archive, blocking: false}
 
 ubuntu2204:
   - {abi: "5.15.0-125-generic", pkg: "linux-headers-5.15.0-125-generic", ver: "*", fetch: archive, blocking: true}
@@ -49,6 +50,7 @@ ubuntu2204:
   - {abi: 6.8.0-138-generic, pkg: linux-headers-6.8.0-138-generic, ver: 6.8.0-138.138~22.04.1, fetch: archive, blocking: false}
   - {abi: 6.8.0-136-generic, pkg: linux-headers-6.8.0-136-generic, ver: 6.8.0-136.136~22.04.1, fetch: archive, blocking: false}
   - {abi: 6.8.0-134-generic, pkg: linux-headers-6.8.0-134-generic, ver: 6.8.0-134.134~22.04.1, fetch: archive, blocking: false}
+  - {abi: 6.8.0-124-generic, pkg: linux-headers-6.8.0-124-generic, ver: 6.8.0-124.124~22.04.1, fetch: archive, blocking: false}
 
 ubuntu2404:
   - {abi: "6.8.0-45-generic", pkg: "linux-headers-6.8.0-45-generic", ver: "*", fetch: archive, blocking: true}
@@ -58,6 +60,7 @@ ubuntu2404:
   - {abi: 7.0.0-31-generic, pkg: linux-headers-7.0.0-31-generic, ver: 7.0.0-31.31~24.04.1, fetch: archive, blocking: false}
   - {abi: 7.0.0-30-generic, pkg: linux-headers-7.0.0-30-generic, ver: 7.0.0-30.30~24.04.1, fetch: archive, blocking: false}
   - {abi: 7.0.0-34-generic, pkg: linux-headers-7.0.0-34-generic, ver: 7.0.0-34.34~24.04.1, fetch: archive, blocking: false}
+  - {abi: 7.0.0-38-generic, pkg: linux-headers-7.0.0-38-generic, ver: 7.0.0-38.38~24.04.4, fetch: archive, blocking: false}
 
 ubuntu2604:
   # new entry, never yet proven green -- non-blocking until a run passes
@@ -66,3 +69,4 @@ ubuntu2604:
   - {abi: 7.0.0-31-generic, pkg: linux-headers-7.0.0-31-generic, ver: 7.0.0-31.31, fetch: archive, blocking: false}
   - {abi: 7.0.0-29-generic, pkg: linux-headers-7.0.0-29-generic, ver: 7.0.0-29.29, fetch: archive, blocking: false}
   - {abi: 7.0.0-34-generic, pkg: linux-headers-7.0.0-34-generic, ver: 7.0.0-34.34, fetch: archive, blocking: false}
+  - {abi: 7.0.0-38-generic, pkg: linux-headers-7.0.0-38-generic, ver: 7.0.0-38.38, fetch: archive, blocking: false}
