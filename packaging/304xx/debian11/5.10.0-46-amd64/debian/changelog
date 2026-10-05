@@ -2,7 +2,7 @@ nvidia-legacy-304xx-kernel-5.10.0-46-amd64 (304.137-0nvl1~bullseye1) bullseye; u
 
   * Reproducible build of NVIDIA 304.137 (304xx legacy series)
     for debian11 (bullseye).
-  * Rendered by render-debian.py from nvidia-legacy-common @ d2251bc.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 1f9c234.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sun, 04 Oct 2026 22:10:24 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Mon, 05 Oct 2026 05:10:56 +0000
 

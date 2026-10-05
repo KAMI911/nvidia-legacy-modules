@@ -2,7 +2,7 @@ nvidia-legacy-580xx-kernel-6.12.94+deb13-rt-amd64 (580.178.04-0nvl1~trixie1) tri
 
   * Reproducible build of NVIDIA 580.178.04 (580xx legacy series)
     for debian13 (trixie).
-  * Rendered by render-debian.py from nvidia-legacy-common @ d2251bc.
+  * Rendered by render-debian.py from nvidia-legacy-common @ 1f9c234.
 
- -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Sun, 04 Oct 2026 22:10:24 +0000
+ -- nvidia-legacy CI <ci@nvidia-legacy.invalid>  Mon, 05 Oct 2026 05:10:56 +0000
 
